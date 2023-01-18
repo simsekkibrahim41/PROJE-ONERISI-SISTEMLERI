@@ -1,0 +1,50 @@
+﻿@{
+	ViewData["tittle"] = "Profil";
+}
+<div class="row">
+	<div class ="col-4 offset-4">
+		<hi class="display-4 border-bottom text-center ">@ViewData["Tittle"]</hi>
+	</div>
+</div>
+
+<div class="row">
+	<div class ="col-4 pt-2">
+
+		<div asp-validation-summary=All class="text-danger small"></div>
+
+		<form method="post" asp-action="ProfileUpdateFullName">
+			<div class="form-group">
+				<label class="form-label small">Ad ve Soyad</label>
+				<div class="input-group">
+					<input name="fullname" type="text" class="form-control" placeholder="Mehmet Yılmaz" value="@ViewData["fullname"]">
+					<button class="btn btn-secondary" type="submit">Kaydet</button>
+				</div>
+				@if(ViewData["result"]!= null && ViewData["result"] == "UpdateFullName")
+				{
+					<span class="alert-info small">İsim ve Soyisim Güncellendi.</span>
+				}
+			</div>
+		</form>
+
+		<form method="post" asp-action="ProfileUpdatePassword">
+			<div class="form-group">
+				<label class="form-label small">Yeni Şifre</label>
+				<div class="input-group">
+					<input name="password" type="password" class="form-control" placeholder="Şifre">
+					<button class="btn btn-secondary" type="submit">Kaydet</button>
+				</div>
+				@if(ViewData["result"]!= null)
+				{
+					@if(ViewData["result"] == "UpdatePassword")
+					{
+						<span class="alert-info small">Yeni şifre oluşturuldu.</span>
+					}
+				   @if(ViewData["result"] == "SamePassword")
+					{
+						<span class="alert-warning small">Yeni şifreniz eski şifreniz ile aynı.</span>
+					}
+				}
+			</div>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,346 @@
+﻿@model IEnumerable<WebApplication1.Entities.ProjectRecommendEntity>
+@{
+	ViewData["tittle"] = "Proje Önerisi";
+}
+<div class="row">
+	<div class ="col-4 offset-4">
+		<hi class="display-4 border-bottom text-center ">@ViewData["Tittle"]</hi>
+	</div>
+</div>
+<br />
+<br />
+<br />
+
+<div class="row">
+    <div class="col">
+
+		<div asp-validation-summary=All class="text-danger small"></div>
+
+		<form method="post" asp-action="ProjectRecommend">
+			<div class="form-group">
+
+				<label class="form-label small">Başlık</label>
+				<div class="input-group">
+					<input name="baslik" type="text" class="form-control" placeholder="Başlık" value="@ViewData["baslik"]">
+				</div>
+
+				<label class="form-label small">Anahtar Keliemeler</label>
+				<div class="input-group">
+					<input name="anahtarkelimeler" type="text" class="form-control" placeholder="Anahtar Kelimeler" value="@ViewData["anahtarkelimeler"]">
+				</div>
+
+				<label class="form-label small">Özet</label>
+				<div class="input-group">
+					<textarea rows="7" name="ozet" class="form-control" placeholder="Özet" value="@ViewData["ozet"]"></textarea>
+				</div>
+
+				<label class="form-label small">Yıl</label>
+				<div class="input-group">
+					<input name="yil" type="text" class="form-control" placeholder="Yıl" value="@ViewData["yil"]">
+				</div>
+				<br>
+				<button class="btn btn-secondary" type="submit">Gönder</button>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="row"
+    <div class="col">
+        <section class="faq-container">
+            <div class="faq-one">
+                <!-- faq question -->
+                <h1 class="faq-page active" active="">Onay Bekleyen Projeler</h1>
+                <!-- faq answer -->
+                <div class="faq-body" style="display: block;">
+                    <p>
+                        <table class="table  overflow-auto">
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Baslik)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.AnahtarKelimeler)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Ozet)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Yil)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.OgrenciName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.TeacherComment)
+                                </th>
+                                <th>
+                                    Onay Durumu
+                                </th>
+                                <th></th>
+                            </tr>
+                            @foreach (var item in Model)
+                            {
+                                if (item.OgretmenOnayDurumu == null)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Baslik)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.AnahtarKelimeler)
+                                        </td>
+                                                <td>
+                                            @{
+                                                if (item.Ozet.ToString().Length <= 100)
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.Ozet)
+                                                }
+                                                else
+                                                {
+                                                    string parameterValue = item.Ozet.ToString().Substring(0, 100);
+
+                                                                    <button type="button" class="astext" data-toggle="modal" data-target="#exampleModal">
+                                                        @Html.DisplayFor(modelItem =>parameterValue)...
+                                                                    </button>
+                                                                    <div id="exampleModal" class="modal" tabindex="-1" role="dialog">
+                                                                        <div class="modal-dialog" role="document">
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-header">
+                                                                                    <h5 class="modal-title">Özet</h5>
+                                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                        <span aria-hidden="true">&times;</span>
+                                                                                    </button>
+                                                                                </div>
+                                                                                <div class="modal-body">
+                                                                                    <div class="input-group">
+                                                                        @Html.DisplayFor(modelItem => item.Ozet)
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                }
+                                            }
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Yil)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.OgrenciName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TeacherComment)
+                                        </td>
+                                        <td>
+                                            <img src="~/asset/question.png" />
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </table>
+                    </p>
+                </div>
+            </div>
+            <div class="faq-two">
+                <!-- faq question -->
+                <h1 class="faq-page">Onaylanan Projeler</h1>
+                <!-- faq answer -->
+                <div class="faq-body">
+                    <p>
+                        <div class="overflow-auto">
+                        <table class="table">
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Baslik)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.AnahtarKelimeler)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Ozet)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Yil)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.OgrenciName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.TeacherComment)
+                                </th>
+                                <th>
+                                    Onay Durumu
+                                </th>
+                                <th></th>
+                            </tr>
+                            @foreach (var item in Model)
+                            {
+                                if (item.OgretmenOnayDurumu == true)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Baslik)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.AnahtarKelimeler)
+                                        </td>
+                                        <td>
+                                                @{
+                                                    if (item.Ozet.ToString().Length <= 100)
+                                                    {
+                                                        @Html.DisplayFor(modelItem => item.Ozet)
+                                                    }
+                                                    else
+                                                    {
+                                                        string parameterValue = item.Ozet.ToString().Substring(0, 100);
+
+                                                                    <button type="button" class="astext" data-toggle="modal" data-target="#exampleModal">
+                                                            @Html.DisplayFor(modelItem =>parameterValue)...
+                                                                    </button>
+                                                                    <div id="exampleModal" class="modal" tabindex="-1" role="dialog">
+                                                                        <div class="modal-dialog" role="document">
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-header">
+                                                                                    <h5 class="modal-title">Özet</h5>
+                                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                        <span aria-hidden="true">&times;</span>
+                                                                                    </button>
+                                                                                </div>
+                                                                                <div class="modal-body">
+                                                                                    <div class="input-group">
+                                                                            @Html.DisplayFor(modelItem => item.Ozet)
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                    }
+                                                }
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Yil)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.OgrenciName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TeacherComment)
+                                        </td>
+                                        <td>
+                                            <img src="~/asset/check.webp" />
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </table>
+                        </div>
+                    </p>
+                </div>
+            </div>
+            <hr class="hr-line">
+            <div class="faq-two">
+                <!-- faq question -->
+                <h1 class="faq-page">Onaylanmayan Proje Önerileri</h1>
+                <!-- faq answer -->
+                <div class="faq-body">
+                    <p>
+                        <table class="table">
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Baslik)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.AnahtarKelimeler)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Ozet)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Yil)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.OgrenciName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.TeacherComment)
+                                </th>
+                                <th>
+                                    Onay Durumu
+                                </th>
+                                <th></th>
+                            </tr>
+                            @foreach (var item in Model)
+                            {
+                                if (item.OgretmenOnayDurumu == false)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Baslik)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.AnahtarKelimeler)
+                                        </td>
+                                                <td>
+                                            @{
+                                                if (item.Ozet.ToString().Length <= 100)
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.Ozet)
+                                                }
+                                                else
+                                                {
+                                                    string parameterValue = item.Ozet.ToString().Substring(0, 100);
+
+                                                    <button type="button" class="astext" data-toggle="modal" data-target="#exampleModal">
+                                                        @Html.DisplayFor(modelItem =>parameterValue)...
+                                                    </button>
+                                                    <div id="exampleModal" class="modal" tabindex="-1" role="dialog">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title">Özet</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div class="input-group">
+                                                                        @Html.DisplayFor(modelItem => item.Ozet)
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Yil)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.OgrenciName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TeacherComment)
+                                        </td>
+                                        <td>
+                                            <center><img src="~/asset/multiply.png" /></center>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </table>
+                    </p>
+                </div>
+            </div>
+        </section>
+	</div>
+</div>
